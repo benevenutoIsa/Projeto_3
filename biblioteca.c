@@ -70,3 +70,56 @@ void salvarStruct(const Tarefa *tarefa, int n, const char *arquivoBin) {
 
     printf("Tarefa salva com sucesso!\n");
 }
+
+// aqui também é usado um ponteiro para um vetor de struct para os dados serem armazenados e depois há uma verificação se o arquivo foi aberto e uma iteração para realizar a leitura das tarefas e depois fecha
+void lerStruct(Tarefa *tarefa, char *arquivoBin) {
+    FILE *arquivo = fopen(arquivoBin, "rb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return;
+    }
+
+    int i = 0;
+    while (fread(&tarefa[i], sizeof(Tarefa), 1, arquivo)) {
+        i++;
+    }
+
+    fclose(arquivo);
+}
+
+//nessa função ele printa todas as tarefas
+void listarStruct(const Tarefa *tarefa, int n) {
+    printf("Listando todas as tarefas:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Prioridade: %d\n", tarefa[i].prioridade);
+        printf("Descricao: %s\n", tarefa[i].descricao);
+        printf("Categoria: %s\n", tarefa[i].categoria);
+        switch (tarefa[i].estado) {
+            case COMPLETO:
+                printf("Estado: Completo\n");
+                break;
+            case EM_ANDAMENTO:
+                printf("Estado: Em andamento\n");
+                break;
+            case NAO_INICIADO:
+                printf("Estado: Não iniciado\n");
+                break;
+            default:
+                printf("Estado: Desconhecido\n");
+        }
+        printf("\n");
+    }
+}
+
+//nesta função o programa procura pelo indice indicado pelo usuario a tarefa que deseja ser excluida, e assim ela é apagada do programa por indice
+void excluir(Tarefa *tarefa, int indice, int *n) {
+    if (indice >= 0 && indice < *n) {
+        for (int i = indice; i < *n - 1; i++) {
+            tarefa[i] = tarefa[i + 1];
+        }
+        (*n)--;
+        printf("Tarefa removida com sucesso!\n");
+    } else {
+        printf("Erro!\n");
+    }
+}
