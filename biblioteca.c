@@ -123,3 +123,126 @@ void excluir(Tarefa *tarefa, int indice, int *n) {
         printf("Erro!\n");
     }
 }
+
+//nesta função conseguimos alterar campos de uma tarefa ja adcionada
+void alterarTarefas(Tarefa *tarefa, int n) {
+    printf("Digite o índice da tarefa que deseja modificar:\n");
+    int indice;
+    scanf("%d", &indice);
+
+    if (indice >= 0 && indice < n) {
+        printf("Escolha o que deseja alterar:\n");
+        printf("1- Prioridade\n");
+        printf("2- Descricao\n");
+        printf("3- Categoria\n");
+        printf("4- Estado\n");
+        //vai pegar a opção escolhida pelo usuario e seguir de acordo com os cases
+        int opcao;
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Digite a nova prioridade:\n");
+                scanf("%d", &tarefa[indice].prioridade);
+                printf("Prioridade da tarefa %d alterada.\n", indice);
+                break;
+            case 2:
+                printf("Digite a nova descricao:\n");
+                getchar();
+                fgets(tarefa[indice].descricao, sizeof(tarefa[indice].descricao), stdin);
+                tarefa[indice].descricao[strcspn(tarefa[indice].descricao, "\n")] = '\0';
+                printf("Descricao da tarefa %d alterada.\n", indice);
+                break;
+            case 3:
+                printf("Digite a nova categoria:\n");
+                getchar();
+                fgets(tarefa[indice].categoria, sizeof(tarefa[indice].categoria), stdin);
+                tarefa[indice].categoria[strcspn(tarefa[indice].categoria, "\n")] = '\0';
+                printf("Categoria da tarefa %d alterada.\n", indice);
+                break;
+            case 4:
+                printf("Escolha o novo estado para a tarefa %d:\n", indice);
+                printf("1- Completo\n");
+                printf("2- Em andamento\n");
+                printf("3- Nao iniciado\n");
+                int estado;
+                scanf("%d", &estado);
+
+                switch (estado) {
+                    case 1:
+                        tarefa[indice].estado = COMPLETO;
+                        printf("Estado da tarefa %d alterado para Completo.\n", indice);
+                        break;
+                    case 2:
+                        tarefa[indice].estado = EM_ANDAMENTO;
+                        printf("Estado da tarefa %d alterado para Em andamento.\n", indice);
+                        break;
+                    case 3:
+                        tarefa[indice].estado = NAO_INICIADO;
+                        printf("Estado da tarefa %d alterado para Nao iniciado.\n", indice);
+                        break;
+                    default:
+                        printf("Opçao invalida.\n");
+                }
+                break;
+            default:
+                printf("Opçao invalida.\n");
+        }
+    } else {
+        printf("Indice invalido.\n");
+    }
+}
+
+//nesta função o usuario consegue filtratar todas as tarefas descritas naquela prioridade
+void filtrarPrioridade(const Tarefa *tarefa, int n, int prioridade) {
+    printf("Listando tarefas com prioridade %d:\n", prioridade);
+    int encontrou = 0;
+    //vai encontrar a prioridade escolhida pelo usuario e sera printado
+    for (int i = 0; i < n; i++) {
+        if (tarefa[i].prioridade == prioridade) {
+            printf("Prioridade: %d\n", tarefa[i].prioridade);
+            printf("Descricao: %s\n", tarefa[i].descricao);
+            printf("Categoria: %s\n", tarefa[i].categoria);
+            switch (tarefa[i].estado) {
+                case COMPLETO:
+                    printf("Estado: Completo\n");
+                    break;
+                case EM_ANDAMENTO:
+                    printf("Estado: Em andamento\n");
+                    break;
+                case NAO_INICIADO:
+                    printf("Estado: Nao iniciado\n");
+                    break;
+                default:
+                    printf("Estado: Desconhecido\n");
+            }
+            encontrou = 1;
+        }
+    }
+
+    if (!encontrou) {
+        printf("Nenhuma tarefa encontrada com a prioridade %d.\n", prioridade);
+    }
+}
+
+
+//nesta função o usuario consegue filtrar todas as tarefas descritas com o estado desejado especifico
+void filtrarEstado(const Tarefa *tarefa, int n, EstadoTarefa estado) {
+    printf("Listando tarefas com o estado escolhido:\n");
+    int encontrou = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (tarefa[i].estado == estado) {
+            printf("Prioridade: %d\n", tarefa[i].prioridade);
+            printf("Descricao: %s\n", tarefa[i].descricao);
+            printf("Categoria: %s\n", tarefa[i].categoria);
+            printf("Estado: %s\n", (tarefa[i].estado == COMPLETO) ? "Completo" :
+                                   (tarefa[i].estado == EM_ANDAMENTO) ? "Em andamento" : "Não iniciado");
+            encontrou = 1;
+        }
+    }
+
+    if (!encontrou) {
+        printf("Nenhuma tarefa encontrada com o estado escolhido.\n");
+    }
+}
