@@ -246,3 +246,155 @@ void filtrarEstado(const Tarefa *tarefa, int n, EstadoTarefa estado) {
         printf("Nenhuma tarefa encontrada com o estado escolhido.\n");
     }
 }
+
+//nesta função o usuario consegue filtrar todas as tarefas na ordem de categoria em que elas estão
+void filtrarCategoria(const Tarefa *tarefa, int n, const char *categoria) {
+    printf("Listando tarefas na categoria '%s' ordenadas por prioridade:\n", categoria);
+    int encontrou = 0;
+
+    //cria um vetor temporário para armazenar as tarefas com a categoria especificada
+    Tarefa tarefasFiltradas[100]; // o número máximo de tarefas é 100
+    int contador = 0;
+
+    //aqui ele vai filtrar as tarefas por categoria
+    for (int i = 0; i < n; i++) {
+        if (strcmp(tarefa[i].categoria, categoria) == 0) {
+            tarefasFiltradas[contador] = tarefa[i];
+            contador++;
+            encontrou = 1;
+        }
+    }
+
+    //aqui ele vai ordena as tarefas filtradas por prioridade (do maior para o menor)
+    for (int i = 0; i < contador - 1; i++) {
+        for (int j = i + 1; j < contador; j++) {
+            if (tarefasFiltradas[i].prioridade < tarefasFiltradas[j].prioridade) {
+                // troca as tarefas de posição (se a prioridade for maior assim criando a ordem)
+                Tarefa temp = tarefasFiltradas[i];
+                tarefasFiltradas[i] = tarefasFiltradas[j];
+                tarefasFiltradas[j] = temp;
+            }
+        }
+    }
+
+    //aqui ele imprime as tarefas filtradas e ordenadas
+    for (int i = 0; i < contador; i++) {
+        printf("Prioridade: %d\n", tarefasFiltradas[i].prioridade);
+        printf("Descricao: %s\n", tarefasFiltradas[i].descricao);
+        printf("Categoria: %s\n", tarefasFiltradas[i].categoria);
+        encontrou = 1;
+    }
+
+    //se ele não encontrar nada isso sera impresso
+    if (!encontrou) {
+        printf("Nenhuma tarefa encontrada na categoria '%s'.\n", categoria);
+    }
+}
+
+//nesta função o usuario consegue filtrar todas as tarefas na ordem de categoria em que elas estão juntamente a prioridade em que elas se encontram de acordo com a categoria
+void filtrarPrioridadeCategoria(const Tarefa *tarefa, int n, int prioridade, const char *categoria) {
+    printf("Listando tarefas com prioridade %d na categoria '%s':\n", prioridade, categoria);
+    int encontrou = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (tarefa[i].prioridade == prioridade && strcmp(tarefa[i].categoria, categoria) == 0) {
+            printf("Prioridade: %d\n", tarefa[i].prioridade);
+            printf("Descricao: %s\n", tarefa[i].descricao);
+            printf("Categoria: %s\n", tarefa[i].categoria);
+            encontrou = 1;
+        }
+    }
+
+    if (!encontrou) {
+        printf("Nenhuma tarefa encontrada com a prioridade %d na categoria '%s'.\n", prioridade, categoria);
+    }
+}
+
+//nesta função o usuario consegue exportar para um novo arquivo todas as tarefas que estão na prioridade especifica escolhida pelo usuario
+void exportarPrioridade(const Tarefa *tarefa, int n, int prioridade, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao criar o arquivo de exportacao.\n");
+        return;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (tarefa[i].prioridade == prioridade) {
+            fprintf(arquivo, "Prioridade: %d\n", tarefa[i].prioridade);
+            fprintf(arquivo, "Categoria: %s\n", tarefa[i].categoria);
+            fprintf(arquivo, "Estado: %s\n", (tarefa[i].estado == COMPLETO) ? "Completo" :
+                                             (tarefa[i].estado == EM_ANDAMENTO) ? "Em andamento" : "Nao iniciado");
+            fprintf(arquivo, "Descricao: %s\n", tarefa[i].descricao);
+            fprintf(arquivo, "\n");
+        }
+    }
+
+    fclose(arquivo);
+    printf("Tarefas da prioridade %d exportadas para o arquivo: %s\n", prioridade, nomeArquivo);
+}
+
+//nesta função o usuario consegue exportar para um novo arquivo todas as tarefas que estão na categoria especifica escolhida pelo usuario
+void exportarCategoria(const Tarefa *tarefa, int n, const char *categoria, const char *nomeArquivo) {
+    //filtra as tarefas com a categoria fornecida
+    Tarefa tarefasFiltradas[100];
+    int contadorFiltradas = 0;
+    for (int i = 0; i < n; i++) {
+        if (strcmp(tarefa[i].categoria, categoria) == 0) {
+            tarefasFiltradas[contadorFiltradas] = tarefa[i];
+            contadorFiltradas++;
+        }
+    }
+    //aqui esta ordenando as tarefas filtradas por prioridade
+    for (int i = 0; i < contadorFiltradas - 1; i++) {
+        for (int j = 0; j < contadorFiltradas - i - 1; j++) {
+            if (tarefasFiltradas[j].prioridade < tarefasFiltradas[j + 1].prioridade) {
+                // Troca as tarefas se a prioridade for menor
+                Tarefa temp = tarefasFiltradas[j];
+                tarefasFiltradas[j] = tarefasFiltradas[j + 1];
+                tarefasFiltradas[j + 1] = temp;
+            }
+        }
+    }
+
+    //exporta as tarefas filtradas e ordenadas por prioridade para o novo arquivo
+    FILE *arquivo = fopen(nomeArquivo, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao criar o arquivo de exportacao.\n");
+        return;
+    }
+
+    for (int i = 0; i < contadorFiltradas; i++) {
+        fprintf(arquivo, "Prioridade: %d\n", tarefasFiltradas[i].prioridade);
+        fprintf(arquivo, "Categoria: %s\n", tarefasFiltradas[i].categoria);
+        fprintf(arquivo, "Estado: %s\n", (tarefasFiltradas[i].estado == COMPLETO) ? "Completo" :
+                                         (tarefasFiltradas[i].estado == EM_ANDAMENTO) ? "Em andamento" : "Nao iniciado");
+        fprintf(arquivo, "Descricao: %s\n", tarefasFiltradas[i].descricao);
+        fprintf(arquivo, "\n");
+    }
+
+    fclose(arquivo);
+    printf("Tarefas da categoria \"%s\" exportadas para o arquivo: %s\n", categoria, nomeArquivo);
+}
+
+//nesta função o usuario consegue exportar para um novo arquivo todas as tarefas que estão na prioridade e categoria especificas escolhidas pelo usuario
+void exportarPrioridadeCategoria(const Tarefa *tarefa, int n, int prioridade, const char *categoria, const char *nomeArquivo) {
+    FILE *arquivo = fopen(nomeArquivo, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao criar o arquivo de exportacao.\n");
+        return;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (tarefa[i].prioridade == prioridade && strcmp(tarefa[i].categoria, categoria) == 0) {
+            fprintf(arquivo, "Prioridade: %d\n", tarefa[i].prioridade);
+            fprintf(arquivo, "Categoria: %s\n", tarefa[i].categoria);
+            fprintf(arquivo, "Estado: %s\n", (tarefa[i].estado == COMPLETO) ? "Completo" :
+                                             (tarefa[i].estado == EM_ANDAMENTO) ? "Em andamento" : "Nao iniciado");
+            fprintf(arquivo, "Descricao: %s\n", tarefa[i].descricao);
+            fprintf(arquivo, "\n");
+        }
+    }
+
+    fclose(arquivo);
+    printf("Tarefas da prioridade %d na categoria '%s' exportadas para o arquivo: %s\n", prioridade, categoria, nomeArquivo);
+}
