@@ -90,7 +90,9 @@ void lerStruct(Tarefa *tarefa, char *arquivoBin) {
 //nessa função ele printa todas as tarefas
 void listarStruct(const Tarefa *tarefa, int n) {
     printf("Listando todas as tarefas:\n");
+    printf("\n");
     for (int i = 0; i < n; i++) {
+        printf("Numero da tarefa: %d\n", i + 1);
         printf("Prioridade: %d\n", tarefa[i].prioridade);
         printf("Descricao: %s\n", tarefa[i].descricao);
         printf("Categoria: %s\n", tarefa[i].categoria);
@@ -112,8 +114,9 @@ void listarStruct(const Tarefa *tarefa, int n) {
 }
 
 //nesta função o programa procura pelo indice indicado pelo usuario a tarefa que deseja ser excluida, e assim ela é apagada do programa por indice
-void excluir(Tarefa *tarefa, int indice, int *n) {
-    if (indice >= 0 && indice < *n) {
+void excluir(Tarefa *tarefa, int numTarefa, int *n) {
+    if (numTarefa >= 1 && numTarefa <= *n) {
+        int indice = numTarefa - 1;
         for (int i = indice; i < *n - 1; i++) {
             tarefa[i] = tarefa[i + 1];
         }
