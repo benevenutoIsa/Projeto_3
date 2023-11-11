@@ -6,6 +6,7 @@ typedef enum {
 
 typedef struct {
     int prioridade;
+    int numTarefa;
     char descricao[301];
     char categoria[101];
     EstadoTarefa estado;
