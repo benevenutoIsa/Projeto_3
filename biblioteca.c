@@ -8,7 +8,7 @@ void menu() {
     printf("1- Adicionar tarefa \n");
     printf("2- Listar todas as tarefas\n");
     printf("3- Excluir tarefa\n");
-    printf("4- Estado da tarefa\n");
+    printf("4- Alterar tarefa\n");
     printf("5- Filtrar por Prioridade \n");
     printf("6- Filtrar por Estado \n");
     printf("7- Filtrar por Categoria e Ordenar por Prioridade \n");
@@ -36,7 +36,7 @@ void escreverTarefa(Tarefa *tarefa) {
     //remove o caractere da nova linha para a string ser salva corretamente
     tarefa->categoria[strcspn(tarefa->categoria, "\n")] = '\0';
 
-    printf("Digite o estado da tarefa (1- Completo, 2- Em andamento, 3- Não iniciado):\n");
+    printf("Digite o estado da tarefa (1- Completo, 2- Em andamento, 3- Nao iniciado):\n");
     int opcaoEstado;
     scanf("%d", &opcaoEstado);
     switch (opcaoEstado) {
@@ -50,7 +50,7 @@ void escreverTarefa(Tarefa *tarefa) {
             tarefa->estado = NAO_INICIADO;
             break;
         default:
-            printf("Esta opcao é invalida para estado, sendo assim sera marcada como Não iniciado.\n");
+            printf("Esta opcao é invalida para estado, sendo assim sera marcada como Nao iniciado.\n");
             tarefa->estado = NAO_INICIADO;
     }
 
@@ -104,7 +104,7 @@ void listarStruct(const Tarefa *tarefa, int n) {
                 printf("Estado: Em andamento\n");
                 break;
             case NAO_INICIADO:
-                printf("Estado: Não iniciado\n");
+                printf("Estado: Nao iniciado\n");
                 break;
             default:
                 printf("Estado: Desconhecido\n");
@@ -123,17 +123,25 @@ void excluir(Tarefa *tarefa, int numTarefa, int *n) {
         (*n)--;
         printf("Tarefa removida com sucesso!\n");
     } else {
-        printf("Erro!\n");
+        printf("Erro\n");
     }
 }
 
 //nesta função conseguimos alterar campos de uma tarefa ja adcionada
 void alterarTarefas(Tarefa *tarefa, int n) {
-    printf("Digite o índice da tarefa que deseja modificar:\n");
-    int indice;
-    scanf("%d", &indice);
+    printf("Digite o numero da tarefa que deseja modificar:\n");
+    int numTarefa;
+    scanf("%d", &numTarefa);
 
-    if (indice >= 0 && indice < n) {
+    int indice = -1;
+    for (int i = 0; i < n; i++) {
+        if (tarefa[i].numTarefa == numTarefa) {
+            indice = i;
+            break;
+        }
+    }
+
+    if (indice != -1) {
         printf("Escolha o que deseja alterar:\n");
         printf("1- Prioridade\n");
         printf("2- Descricao\n");
@@ -147,24 +155,24 @@ void alterarTarefas(Tarefa *tarefa, int n) {
             case 1:
                 printf("Digite a nova prioridade:\n");
                 scanf("%d", &tarefa[indice].prioridade);
-                printf("Prioridade da tarefa %d alterada.\n", indice);
+                printf("Prioridade da tarefa %d alterada.\n", numTarefa);
                 break;
             case 2:
                 printf("Digite a nova descricao:\n");
                 getchar();
                 fgets(tarefa[indice].descricao, sizeof(tarefa[indice].descricao), stdin);
                 tarefa[indice].descricao[strcspn(tarefa[indice].descricao, "\n")] = '\0';
-                printf("Descricao da tarefa %d alterada.\n", indice);
+                printf("Descricao da tarefa %d alterada.\n", numTarefa);
                 break;
             case 3:
                 printf("Digite a nova categoria:\n");
                 getchar();
                 fgets(tarefa[indice].categoria, sizeof(tarefa[indice].categoria), stdin);
                 tarefa[indice].categoria[strcspn(tarefa[indice].categoria, "\n")] = '\0';
-                printf("Categoria da tarefa %d alterada.\n", indice);
+                printf("Categoria da tarefa %d alterada.\n", numTarefa);
                 break;
             case 4:
-                printf("Escolha o novo estado para a tarefa %d:\n", indice);
+                printf("Escolha o novo estado para a tarefa %d:\n", numTarefa);
                 printf("1- Completo\n");
                 printf("2- Em andamento\n");
                 printf("3- Nao iniciado\n");
@@ -174,25 +182,25 @@ void alterarTarefas(Tarefa *tarefa, int n) {
                 switch (estado) {
                     case 1:
                         tarefa[indice].estado = COMPLETO;
-                        printf("Estado da tarefa %d alterado para Completo.\n", indice);
+                        printf("Estado da tarefa %d alterado para Completo.\n", numTarefa);
                         break;
                     case 2:
                         tarefa[indice].estado = EM_ANDAMENTO;
-                        printf("Estado da tarefa %d alterado para Em andamento.\n", indice);
+                        printf("Estado da tarefa %d alterado para Em andamento.\n", numTarefa);
                         break;
                     case 3:
                         tarefa[indice].estado = NAO_INICIADO;
-                        printf("Estado da tarefa %d alterado para Nao iniciado.\n", indice);
+                        printf("Estado da tarefa %d alterado para Nao iniciado.\n", numTarefa);
                         break;
                     default:
-                        printf("Opçao invalida.\n");
+                        printf("Opcao invalida\n");
                 }
                 break;
             default:
-                printf("Opçao invalida.\n");
+                printf("Opcao invalida\n");
         }
     } else {
-        printf("Indice invalido.\n");
+        printf("Numero da tarefa escolhida nao foi encontrado\n");
     }
 }
 
@@ -240,7 +248,7 @@ void filtrarEstado(const Tarefa *tarefa, int n, EstadoTarefa estado) {
             printf("Descricao: %s\n", tarefa[i].descricao);
             printf("Categoria: %s\n", tarefa[i].categoria);
             printf("Estado: %s\n", (tarefa[i].estado == COMPLETO) ? "Completo" :
-                                   (tarefa[i].estado == EM_ANDAMENTO) ? "Em andamento" : "Não iniciado");
+                                   (tarefa[i].estado == EM_ANDAMENTO) ? "Em andamento" : "Nao iniciado");
             encontrou = 1;
         }
     }
