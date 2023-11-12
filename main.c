@@ -26,7 +26,7 @@ int main() {
         switch (opcao) {
             case 1: //adcionar tarefas
                 if (n < 100) {
-                    escreverTarefa(&pessoaTarefa[n]);
+                    escreverTarefa(&pessoaTarefa[n], n + 1);
                     n++;
                 } else {
                     printf("cheio\n");
