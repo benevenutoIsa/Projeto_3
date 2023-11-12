@@ -1,3 +1,5 @@
+//usei typedef enum para facilitar pra mim na hora de criar as funcoes, fica menos repetitivo e com menos chance de errar
+
 typedef enum {
     COMPLETO,
     EM_ANDAMENTO,
@@ -21,11 +23,11 @@ void listarStruct(const Tarefa *tarefa, int n);
 void excluir(Tarefa *tarefa, int numTarefa, int *n);
 
 //já essas funções são novas especificadamente do projjeto 3
-void alterarTarefas(Tarefa *tarefa, int n);
-void filtrarPrioridade(const Tarefa *tarefa, int n, int prioridade);
-void filtrarEstado(const Tarefa *tarefa, int n, EstadoTarefa estado);
-void filtrarCategoria(const Tarefa *tarefa, int n, const char *categoria);
-void filtrarPrioridadeCategoria(const Tarefa *tarefa, int n, int prioridade, const char *categoria);
-void exportarPrioridade(const Tarefa *tarefa, int n, int prioridade, const char *nomeArquivo);
-void exportarCategoria(const Tarefa *tarefa, int n, const char *categoria, const char *nomeArquivo);
-void exportarPrioridadeCategoria(const Tarefa *tarefa, int n, int prioridade, const char *categoria, const char *nomeArquivo);
+void alterar(Tarefa *tarefa, int n);
+void filtrarP(const Tarefa *tarefa, int n, int prioridade);
+void filtrarE(const Tarefa *tarefa, int n, EstadoTarefa estado);
+void filtrarC(const Tarefa *tarefa, int n, const char *categoria);
+void filtrarPC(const Tarefa *tarefa, int n, int prioridade, const char *categoria);
+void exportarP(const Tarefa *tarefa, int n, int prioridade, const char *nomeArquivo);
+void exportarC(const Tarefa *tarefa, int n, const char *categoria, const char *nomeArquivo);
+void exportarPC(const Tarefa *tarefa, int n, int prioridade, const char *categoria, const char *nomeArquivo);
