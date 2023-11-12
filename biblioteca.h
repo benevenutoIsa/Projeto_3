@@ -16,7 +16,7 @@ typedef struct {
 
 //essas funções foram implementadas no projeto 1 mas fiz algumas alterações
 void menu();
-void escreverTarefa(Tarefa *tarefa);
+void escreverTarefa(Tarefa *tarefa, int numTarefa);
 void salvarStruct(const Tarefa *tarefa, int n, const char *arquivoBin);
 void lerStruct(Tarefa *tarefa, char *arquivoBin);
 void listarStruct(const Tarefa *tarefa, int n);
