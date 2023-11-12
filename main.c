@@ -43,13 +43,13 @@ int main() {
                 excluir(pessoaTarefa, numTarefaExcluir, &n);
                 break;
             case 4: //altera algum dado relacionado a tarefa 
-                alterarTarefas(pessoaTarefa, n);
+                alterar(pessoaTarefa, n);
                 break;
             case 5: // filtra todas as atividades com o numero especifico de prioridade
                 printf("Digite o numero da prioridade da tarefa para filtrar as tarefas:\n");
                 int prioridade;
                 scanf("%d", &prioridade);
-                filtrarPrioridade(pessoaTarefa, n, prioridade);
+                filtrarP(pessoaTarefa, n, prioridade);
                 break;
             case 6: //filtra todas as atividades que tem o mesmo estado de tarefa 
                 printf("Selecione o estado da tarefa para filtrar:\n");
@@ -75,14 +75,14 @@ int main() {
                         continue;  //volta ao menu
                 }
 
-                filtrarEstado(pessoaTarefa, n, estadoFiltrar);
+                filtrarE(pessoaTarefa, n, estadoFiltrar);
                 break;
             case 7: //filtra todas as tarefas que tem a mesma categoria 
                 printf("Digite a categoria da tarefa para filtrar:\n");
                 getchar();
                 fgets(categoriaFiltrar, sizeof(categoriaFiltrar), stdin);
                 categoriaFiltrar[strlen(categoriaFiltrar) - 1] = '\0';
-                filtrarCategoria(pessoaTarefa, n, categoriaFiltrar);
+                filtrarC(pessoaTarefa, n, categoriaFiltrar);
                 break;
             case 8:// nesse ele filtra as tarefas que tem a mesma prioridade e a mesma categoria 
                 printf("Digite a prioridade da tarefa para filtrar:\n");
@@ -94,7 +94,7 @@ int main() {
                 fgets(categoriaFiltrar, sizeof(categoriaFiltrar), stdin);
                 categoriaFiltrar[strlen(categoriaFiltrar) - 1] = '\0';
 
-                filtrarPrioridadeCategoria(pessoaTarefa, n, prioridadeFiltrar, categoriaFiltrar);
+                filtrarPC(pessoaTarefa, n, prioridadeFiltrar, categoriaFiltrar);
                 break;
             case 9: //vai pegar as tarefas com o numero de prioridade escolhido e exportar para um arquivo novo com o nome que o usuario escolher
                 printf("Digite a prioridade as tarefa para exportar:\n");
@@ -105,7 +105,7 @@ int main() {
                 fgets(nomeArquivoExportar, sizeof(nomeArquivoExportar), stdin);
                 nomeArquivoExportar[strlen(nomeArquivoExportar) - 1] = '\0';
                 
-                exportarPrioridade(pessoaTarefa, n, prioridadeExportar, nomeArquivoExportar);
+                exportarP(pessoaTarefa, n, prioridadeExportar, nomeArquivoExportar);
                 break;
             case 10: //vai pegar as tarefas com a categoria escolhida e exportar para um arquivo novo com o nome que o usuario escolher
                 printf("Digite a categoria da tarefa para exportar:\n");
@@ -120,7 +120,7 @@ int main() {
                 fgets(nomeArquivoExportar, sizeof(nomeArquivoExportar), stdin);
                 nomeArquivoExportar[strlen(nomeArquivoExportar) - 1] = '\0';
                 
-                exportarCategoria(pessoaTarefa, n, categoriaExportar, nomeArquivoExportar);
+                exportarC(pessoaTarefa, n, categoriaExportar, nomeArquivoExportar);
                 break;
             case 11: //vai pegar as tarefas que tenham a categoria escolhida e a prioriade escolhida e exportar para um arquivo novo com o nome que o usuario escolher
                 printf("Digite a prioridade para exportar as tarefas:\n");
@@ -136,7 +136,7 @@ int main() {
                 fgets(nomeArquivoExportar, sizeof(nomeArquivoExportar), stdin);
                 nomeArquivoExportar[strlen(nomeArquivoExportar) - 1] = '\0'; 
 
-                exportarPrioridadeCategoria(pessoaTarefa, n, prioridadeExportar, categoriaExportar, nomeArquivoExportar);
+                exportarPC(pessoaTarefa, n, prioridadeExportar, categoriaExportar, nomeArquivoExportar);
                 break;
             case 0: //salva as informacoes antes de fechar o programa 
                 salvarStruct(pessoaTarefa, n, "arquivo.bin");
