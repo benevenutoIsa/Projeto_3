@@ -18,7 +18,7 @@ void escreverTarefa(Tarefa *tarefa);
 void salvarStruct(const Tarefa *tarefa, int n, const char *arquivoBin);
 void lerStruct(Tarefa *tarefa, char *arquivoBin);
 void listarStruct(const Tarefa *tarefa, int n);
-void excluir(Tarefa *tarefa, int indice, int *n);
+void excluir(Tarefa *tarefa, int numTarefa, int *n);
 
 //já essas funções são novas especificadamente do projjeto 3
 void alterarTarefas(Tarefa *tarefa, int n);
