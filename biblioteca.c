@@ -20,7 +20,8 @@ void menu() {
 }
 
 // essa função pega os dados que o  usuario escreveu e armazena em uma estrutura
-void escreverTarefa(Tarefa *tarefa) {
+void escreverTarefa(Tarefa *tarefa, int numTarefa) {
+    tarefa->numTarefa = numTarefa;
     printf("Digite a prioridade da tarefa:\n");
     scanf("%d", &tarefa->prioridade);
 
